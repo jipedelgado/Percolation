@@ -1,0 +1,83 @@
+﻿Projet Percolation
+
+Historique = Sedgewinck & Wayne princeton courses "Algorithms" sur coursera.com
+
+Programming assigment 1 : Percolation
+ jipedelgado@gmail.com
+ 02/2014
+	 compute connected areas, assigning, when adding a new adjacent element,
+	 at each member of the area the greater root value of the new element
+	 or the actuals element of the area.
+	 Value of root is zero for all Sites, then value ID = row*N+column+1
+	 when the site is opened.
+	 Each site on the bottom line has a value less than N*(N-1).
+	 So when a site on the top line has a root over this value,
+	 the system percolates.
+-------------------------------------------------------------
+2014/11/31 =
+	ouverture projet sur Qt
+	implémentation système de fenetrage
+	création class Afficheur
+
+--------------------------------------------------------------
+2014/12/01 =
+	Analyse du projet Percolate.java du 2014-02-10 par jipedelgado
+	Choix d'une représentation par vector<int> des sites.
+
+---------------------------------------------------------------
+2014/12/03 =
+1 - implémenté la classe WeightedQuickUnionUF, selon Sedgewick && Wayne
+
+---------------------------------------------------------------
+2014/12/04 =
+1 - implémenté une fonction extractRandomElementFrom(structure<T>)
+		tire un indice au hasard, retire l'élément de la structure, et le retourne
+
+2 - implementé vector<int> neighbours(int)
+		qui retourne le liste des voisins autorisés d'un élément de la grille
+
+----------------------------------------------------------------
+2014/12/05 =
+	 Choisi l'algo de contrôle de percolation, par examen de la valeur de Root
+	 pour chaque site de la ligne inférieure : si une d'elle est inférieure à la
+	 largeur width, alors il existe une zone connectée reliant un site de la ligne
+	 supérieure à un site de la ligne inférieure.
+	 complexité moyenne  = width * (size / 2)
+
+----------------------------------------------------------------
+2014/12/07 =
+	implémenté l'algorithme principal = open()
+	on parcours l'ensemble des voisins autorisés du site, et, pour tout site voisin
+	ouvert, dont la racine est supérieure à celle du site, on recherche les sites
+	connexes, et on met leur racine à la valeur du site.
+	Si un site voisin autorisé ouvert a une racine inférieure à celle du site,
+	cette valeur est attribuée au site.
+	Puis on fait un Union entre le site et son voisin.
+	Ainsi on propage dans le nouveau groupe la valeur minimale des racines.
+
+----------------------------------------------------------------
+2014/12/09 =
+	cet algorithme necessite le parcours des voisinages connexes de chaque voisin
+	du nouveau site, ce qui entraine de l'ordre de N^2/2 comparaisons et N^2/2
+	affectations.
+	Le nouvel algorithme fait appel à une structure d'arbre équilibré,
+	selon l'algorithme WeightedQuickUnionUF, de complexité log2(N)en moyenne.
+	L'algo de contrôle de la percolation consiste à vérifier les éléments de la ligne
+	inférieure sont connectés à ceux de la ligne, soient log2(N)*log2(N)comparaisons
+	pour chaque nouveau site
+
+----------------------------------------------------------------
+2014/12/14 =
+Simplifié l'algorithme de tirage sans remise extractRandomElementFrom(vector<int>)
+devenu lecture d'un élément + copie du dernier élément à sa place + pop_back.
+Soit une lecture + une affectaion + un pop = constant
+
+----------------------------------------------------------------
+
+TODO
+
+1 - Adapter l'affichage à la nouvelle structure des données
+
+2 - implémenter les destructeurs de classes
+
+
